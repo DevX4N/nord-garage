@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #08090b;
+  --color-ink-2: #101216;
+  --color-ink-3: #15181d;
+  --color-bone: #f5f5f3;
+  --color-mute: #8f949c;
+  --color-metal: #b8bec7;
+  --color-lime: #d6ff45;
+
+  --font-display: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  --font-serifit: "Instrument Serif", Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink font-body text-bone antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-lime);
+    color: #0a0b08;
+  }
+  :focus-visible {
+    outline: 1.5px solid var(--color-lime);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  section[id] {
+    scroll-margin-top: 84px;
+  }
+  option {
+    background: var(--color-ink-2);
+    color: var(--color-bone);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0b0d;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #26292f;
+    border-radius: 99px;
+    border: 3px solid #0a0b0d;
+  }
+}
+
+/* Serif italic for editorial accent words */
+.it {
+  font-family: var(--font-serifit);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.07em;
+  letter-spacing: -0.01em;
+}
+
+/* Cinematic film grain over the whole experience */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+}
+
+/* Soft radar ping for detail hotspots */
+@keyframes dot-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  75% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+.dot-ping::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(214, 255, 69, 0.55);
+  animation: dot-ping 2.7s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .grain {
+    display: none;
+  }
+  .dot-ping::after {
+    animation: none;
+  }
+}
