@@ -7,3 +7,6 @@ dist/
 .claude/
 .DS_Store
 npm-debug.log*
+
+.vercel
+.env*
